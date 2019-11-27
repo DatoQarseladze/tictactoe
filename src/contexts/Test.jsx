@@ -7,7 +7,8 @@ export const MyContext = React.createContext();
 class MyProvider extends Component {
   state = {
     age: 100,
-    details: {}
+    details: {},
+    turn: 'O'
   };
   render() {
     return (
@@ -18,12 +19,14 @@ class MyProvider extends Component {
             this.setState({
               age: this.state.age + 1,
               details: res
-            })
-          // growAYearOlder: (res) => {
-          //   console.log(res);
-          //   alert('growAYearOlder')
-          // }
-        }}
+            }),
+          ChangeTurn: res => {
+            console.log(this.state);
+          // this.setState({
+          //   turn : 'X'
+          // })
+          return this.state.turn;
+        }}}
       >
         {this.props.children}
       </MyContext.Provider>
