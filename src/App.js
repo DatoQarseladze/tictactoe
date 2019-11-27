@@ -1,16 +1,20 @@
-import React from "react";
-import "./App.css";
-import Input from "./components/Input/Input";
+import React, { Component } from "react";
+import MyProvider from "./contexts/Test";
 import TicTacToe from "./components/TicTacToe/TicTacToe";
-import { Test, numbers } from './contexts/Test'
+import Input from "./components/Input/Input";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="container">
-{ numbers.number1 > 0 && <TicTacToe /> }
-      <Input />
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <MyProvider>
+        <div className="container">
+          <TicTacToe />
+          <Input />
+        </div>
+      </MyProvider>
+    );
+  }
 }
 
 export default App;
