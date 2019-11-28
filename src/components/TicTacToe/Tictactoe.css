@@ -1,21 +1,29 @@
-.tictac-container{
-    width: 60%;
-    height: 100vh;
-    border-right: 2px solid black;
+.tictac-container {
+  width: 60%;
+  height: 100vh;
+  border-right: 2px solid black;
 }
 
-.box{
-    display: flex;
+.box {
+  display: flex;
 }
 
-.row{
-    width: 200px;
-    height: 200px;
-    border: 1px solid black;
-    font-size: 50px;
-    text-align: center;
+.row {
+  width: 200px;
+  height: 200px;
+  border: 1px solid black;
+  font-size: 50px;
+  text-align: center;
 }
 
-.row:hover{
-    background: yellow;
+.row:hover {
+  background: yellow;
+}
+
+.activeX {
+  background: #ff3838;
+}
+
+.activeY {
+  background: #3b3b6b;
 }

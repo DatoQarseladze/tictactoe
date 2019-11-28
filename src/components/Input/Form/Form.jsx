@@ -1,6 +1,6 @@
 import React from "react";
 import "./Form.css";
-import { MyContext } from "../../../contexts/Test";
+import { MyContext } from "../../../contexts/TictacStatsContext";
 import useForm from "../../../hooks/useForm";
 
 const stateSchema = {
@@ -28,7 +28,7 @@ const stateValidatorSchema = {
     required: true,
     validator: {
       func: value => /^([3-8]|10)$/.test(value),
-      error: "Rows value must be between 3 and 6"
+      error: "Rows value must be between 3 and 8"
     }
   }
 };
@@ -56,7 +56,7 @@ const Form = () => {
       {context => {
         return (
           <>
-            <p className='form-header'>Please choose options</p>
+            <p className="form-header">Please choose options</p>
             <form
               onSubmit={handleOnSubmit(context.growAYearOlder)}
               className="input-form"

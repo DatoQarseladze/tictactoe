@@ -1,56 +1,132 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Tictactoe.css";
-import { MyContext } from "../../contexts/Test";
-import Div from './Div/Div';
+import Div from "./Div/Div";
 
-const TicTacToe = () => {
-  let currentTurn = 'O'
+const TicTacToe = ctx => {
+  let width = parseInt(ctx.ctx.state.details.width);
+  let length = parseInt(ctx.ctx.state.details.length);
+  let row = parseInt(ctx.ctx.state.details.rows);
+
+  let mult = width * length;
+
+
+  let alertDraw = winner => {
+    if(!winner && (ctx.ctx.state.currentTurn == mult)){
+      alert('Draw');
+    }
+  }
+
+  let findWinner = (stats, player) => {
+    if (stats.length) {
+      let counter = 0;
+      let counterWin = 0;
+      stats.sort().forEach(num => {
+        counter = num;
+
+        //Vertical
+        while (counter + width < mult + width) {
+          counter = counter + width;
+          if (stats.includes(counter)) {
+            counterWin++;
+          } else {
+            counterWin = 0;
+            break;
+          }
+
+          if (counterWin === row - 1) {
+            ctx.ctx.setWinner();
+            alert(player + " Won!");
+          }
+        }
+        counter = num;
+
+        //Horizont
+        while (counter + 1 < Math.ceil(counter / width) * width + 1) {
+          counter = counter + 1;
+          if (stats.includes(counter)) {
+            counterWin++;
+          } else {
+            counterWin = 0;
+            break;
+          }
+          if (counterWin === row - 1) {
+            ctx.ctx.setWinner();
+            alert(player + " Won!");
+          }
+        }
+        counter = num;
+
+        //Diagonal
+        while (counter + (width - 1) < mult) {
+          counter = counter + width - 1;
+          if (stats.includes(counter)) {
+            counterWin++;
+          } else {
+            counterWin = 0;
+            break;
+          }
+          if (counterWin === row - 1) {
+            ctx.ctx.setWinner();
+            alert(player + " Won!");
+          }
+        }
+        counter = num;
+
+        //Reverse Diagonal
+        while (counter + (width + 1) < mult + width) {
+          counter = counter + width + 1;
+          if (stats.includes(counter)) {
+            counterWin++;
+          } else {
+            counterWin = 0;
+            break;
+          }
+          if (counterWin === row - 1) {
+            ctx.ctx.setWinner();
+            alert(player + " Won!");
+          }
+        }
+        counter = num;
+      });
+    }
+  };
+
+  useEffect(() => {
+    findWinner(ctx.ctx.state.Xturns, "X");
+  }, [ctx.ctx.state.Xturns]);
+
+  useEffect(() => {
+    findWinner(ctx.ctx.state.Oturns, "O");
+  }, [ctx.ctx.state.Oturns]);
+
+
+  useEffect(() => {
+    alertDraw(ctx.ctx.state.winner)
+  }, [ctx.ctx.state.winner])
+
   let buildTable = context => {
-    let width = context.width;
-    let length = context.length;
+    let mult = width * length;
+
     let box = [...Array(parseInt(length))].map((el, i) => {
       return (
-        <Div key={`${i}`} name={`${i}`} child={width}>
-     
-        </Div>
-        // <div key={i} className={`box ${i}`}>
-        //   {[...Array(parseInt(width))].map((child, k) => {
-        //     return (
-        //       <div onClick={chooseRow} key={k} data-id={k} className="row">
-              
-        //       </div>
-        //     );
-        //   })}
-        // </div>
+        <Div
+          name={`${i}`}
+          key={i}
+          index={i}
+          totalTurns={mult}
+          width={width}
+          length={length}
+          context={context}
+        ></Div>
       );
     });
     return box;
   };
 
-  let chooseRow = event => {
-    console.log(event.currentTarget.textContent !== 'X')
-    if((event.currentTarget.textContent !== 'X') &&  (event.currentTarget.textContent !== 'O')){
-    currentTurn === 'O' ? currentTurn = 'X' : currentTurn = 'O' 
-    return event.currentTarget.textContent = currentTurn;
-    } 
-    alert('yleee');
-
-  };
-  return (
-    <MyContext.Consumer>
-      {context => {
-        if (context.state.age > 100) {
-          return (
-            <div className="tictac-container">
-              <h1>I'm Inside provider</h1>
-              {buildTable(context.state.details)}
-            </div>
-          );
-        }
-        return <div className="tictac-container"></div>;
-      }}
-    </MyContext.Consumer>
-  );
+  if (ctx.ctx.state.active) {
+    return <div className="tictac-container">{buildTable(ctx.ctx)}</div>;
+  }
+  return <div className="tictac-container">Enter Options</div>;
 };
 
 export default TicTacToe;

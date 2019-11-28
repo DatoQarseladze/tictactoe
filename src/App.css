@@ -3,3 +3,10 @@
   justify-content: center;
   flex-direction: row;
 }
+
+.error{
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  color: rgb(182, 11, 11);
+}
