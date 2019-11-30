@@ -13,9 +13,10 @@ const ChildDiv = ({ totalTurns, parentIndex, ownIndex, width, context }) => {
       context.currentTurn();
       //Get which player clicks
       context.getTurn() === "O" ? (turn = "X") : (turn = "O");
-      let currentIndex = parseInt(event.currentTarget.className.split("-")[1]);
+      let parentIndex = parseInt(event.currentTarget.className.split("-")[1]);
+      let childIndex = parseInt(event.currentTarget.className.split("-")[2]);
+      let currentIndex = [parentIndex,childIndex]; 
       context.setCoords(turn, currentIndex);
-
       //Just for background
       turn === "X"
         ? event.target.classList.add("activeX")
@@ -32,7 +33,7 @@ const ChildDiv = ({ totalTurns, parentIndex, ownIndex, width, context }) => {
   return (
     <div
       onClick={e => test(e, context)}
-      className={`row r-${parentIndex * width + ownIndex}`}
+      className={`row r-${parentIndex}-${parentIndex * width + ownIndex}`}
     >
       <p>{value}</p>
     </div>

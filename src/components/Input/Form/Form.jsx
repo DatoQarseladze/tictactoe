@@ -58,7 +58,7 @@ const Form = () => {
           <>
             <p className="form-header">Please choose options</p>
             <form
-              onSubmit={handleOnSubmit(context.growAYearOlder)}
+              onSubmit={handleOnSubmit(context.startGame)}
               className="input-form"
             >
               <div className="form-item">
