@@ -11,20 +11,13 @@ const TicTacToe = ctx => {
 
 
   let alertDraw = winner => {
-    if(!winner && (ctx.ctx.state.currentTurn == mult)){
+    if(!winner && (ctx.ctx.state.currentTurn === mult)){
       alert('Draw');
     }
   }
 
-  let findWinner = (stats, player) => {
-    if (stats.length) {
-      let counter = 0;
-      let counterWin = 0;
-      stats.sort().forEach(num => {
-        counter = num;
-
-        //Vertical
-        while (counter + width < mult + width) {
+  let checkVertical = (stats,player,counter, counterWin) => {
+      while (counter + width < mult + width) {
           counter = counter + width;
           if (stats.includes(counter)) {
             counterWin++;
@@ -32,61 +25,88 @@ const TicTacToe = ctx => {
             counterWin = 0;
             break;
           }
-
           if (counterWin === row - 1) {
             ctx.ctx.setWinner();
-            alert(player + " Won!");
+            alert(player + " Won from function!");
           }
         }
         counter = num;
+        return true;
+  }
+  
+   const findWinner =  (stats, player) => {
+    if (stats.length) {
+      let counter = 0;
+      let counterWin = 0;
+      stats.sort().forEach(async num => {
+        counter = num;
+
+        //Vertical
+        await checkVertical(stats,player,counter, counterWin);
+
+        // while (counter + width < mult + width) {
+        //   counter = counter + width;
+        //   if (stats.includes(counter)) {
+        //     counterWin++;
+        //   } else {
+        //     counterWin = 0;
+        //     break;
+        //   }
+
+        //   if (counterWin === row - 1) {
+        //     ctx.ctx.setWinner();
+        //     alert(player + " Won!");
+        //   }
+        // }
+        // counter = num;
 
         //Horizont
-        while (counter + 1 < Math.ceil(counter / width) * width + 1) {
-          counter = counter + 1;
-          if (stats.includes(counter)) {
-            counterWin++;
-          } else {
-            counterWin = 0;
-            break;
-          }
-          if (counterWin === row - 1) {
-            ctx.ctx.setWinner();
-            alert(player + " Won!");
-          }
-        }
-        counter = num;
+        // while (counter + 1 < Math.ceil(counter / width) * width + 1) {
+        //   counter = counter + 1;
+        //   if (stats.includes(counter)) {
+        //     counterWin++;
+        //   } else {
+        //     counterWin = 0;
+        //     break;
+        //   }
+        //   if (counterWin === row - 1) {
+        //     ctx.ctx.setWinner();
+        //     alert(player + " Won!");
+        //   }
+        // }
+        // counter = num;
 
         //Diagonal
-        while (counter + (width - 1) < mult) {
-          counter = counter + width - 1;
-          if (stats.includes(counter)) {
-            counterWin++;
-          } else {
-            counterWin = 0;
-            break;
-          }
-          if (counterWin === row - 1) {
-            ctx.ctx.setWinner();
-            alert(player + " Won!");
-          }
-        }
-        counter = num;
+        // while (counter + (width - 1) < mult) {
+        //   counter = counter + width - 1;
+        //   if (stats.includes(counter)) {
+        //     counterWin++;
+        //   } else {
+        //     counterWin = 0;
+        //     break;
+        //   }
+        //   if (counterWin === row - 1) {
+        //     ctx.ctx.setWinner();
+        //     alert(player + " Won!");
+        //   }
+        // }
+        // counter = num;
 
         //Reverse Diagonal
-        while (counter + (width + 1) < mult + width) {
-          counter = counter + width + 1;
-          if (stats.includes(counter)) {
-            counterWin++;
-          } else {
-            counterWin = 0;
-            break;
-          }
-          if (counterWin === row - 1) {
-            ctx.ctx.setWinner();
-            alert(player + " Won!");
-          }
-        }
-        counter = num;
+        // while (counter + (width + 1) < mult + width) {
+        //   counter = counter + width + 1;
+        //   if (stats.includes(counter)) {
+        //     counterWin++;
+        //   } else {
+        //     counterWin = 0;
+        //     break;
+        //   }
+        //   if (counterWin === row - 1) {
+        //     ctx.ctx.setWinner();
+        //     alert(player + " Won!");
+        //   }
+        // }
+        // counter = num;
       });
     }
   };
