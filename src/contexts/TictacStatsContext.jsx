@@ -13,7 +13,8 @@ class MyProvider extends Component {
     Oturns: [],
     totalTurns: 0,
     currentTurn: 0,
-    winner: false
+    winner: "",
+    playSound: false
   };
 
   render() {
@@ -22,17 +23,23 @@ class MyProvider extends Component {
         value={{
           state: this.state,
 
-          growAYearOlder: res =>
-            // this.setState({
-            //   active: this.state.active = true,
-            //   details: res
-            // }),
+          startGame: stats =>
             this.setState(prev => {
               return {
-                active: !this.state.active ,
-                details: res
+                active: !this.state.active,
+                details: stats,
+                playSound: true
               };
             }),
+
+          endGame: bool => {
+            this.setState(prev => {
+              return {
+                active: bool,
+                playSound: bool
+              };
+            });
+          },
 
           getTurn: () => {
             return this.state.turn;
@@ -56,7 +63,7 @@ class MyProvider extends Component {
 
           currentTurn: () => {
             this.setState({
-              currentTurn: ++this.state.currentTurn
+              currentTurn: this.state.currentTurn + 1
             });
           },
 
@@ -81,18 +88,26 @@ class MyProvider extends Component {
             }
           },
 
+          clearCoords: (arr, turn) => {
+            this.setState(() => ({
+              Oturns: arr,
+              Xturns: arr,
+              currentTurn: turn
+            }));
+          },
+
           getCoords: () => {
             return this.state;
           },
 
-          setWinner: () => {
+          setWinner: player => {
             this.setState(() => ({
-              winner: this.state.winner = true
-            }))
+              winner: player
+            }));
           },
           getWinner: () => {
-            return this.state.winner
-          }
+            return this.state.winner;
+          },
         }}
       >
         {this.props.children}

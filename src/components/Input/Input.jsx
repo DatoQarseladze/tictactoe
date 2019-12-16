@@ -1,11 +1,11 @@
 import React from "react";
-import "./Input.css";
+import inputStyle from "./Input.module.css";
 import Form  from './Form/Form';
 
 const Input = () => {
   return (
     <>
-      <div className="input-wrapper">
+      <div className={inputStyle.inputWrapper}>
       <Form />
       </div>
     </>

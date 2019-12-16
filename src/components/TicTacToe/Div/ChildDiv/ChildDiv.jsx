@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import tictacStyles from '../../Tictactoe.module.css'
 
 const ChildDiv = ({ totalTurns, parentIndex, ownIndex, width, context }) => {
   let turn;
@@ -13,13 +14,14 @@ const ChildDiv = ({ totalTurns, parentIndex, ownIndex, width, context }) => {
       context.currentTurn();
       //Get which player clicks
       context.getTurn() === "O" ? (turn = "X") : (turn = "O");
-      let currentIndex = parseInt(event.currentTarget.className.split("-")[1]);
+      let parentIndex = parseInt(event.currentTarget.className.split("-")[1]);
+      let childIndex = parseInt(event.currentTarget.className.split("-")[2]);
+      let currentIndex = [parentIndex,childIndex]; 
       context.setCoords(turn, currentIndex);
-
       //Just for background
       turn === "X"
-        ? event.target.classList.add("activeX")
-        : event.target.classList.add("activeY");
+        ? event.target.classList.add(`${tictacStyles.activeX}`)
+        : event.target.classList.add(`${tictacStyles.activeY}`);
       context.changeTurn(turn);
       setValue(prevCount => turn);
       //Check if all values are filled
@@ -32,7 +34,7 @@ const ChildDiv = ({ totalTurns, parentIndex, ownIndex, width, context }) => {
   return (
     <div
       onClick={e => test(e, context)}
-      className={`row r-${parentIndex * width + ownIndex}`}
+      className={`${tictacStyles.row} r-${parentIndex}-${parentIndex * width + ownIndex}`}
     >
       <p>{value}</p>
     </div>

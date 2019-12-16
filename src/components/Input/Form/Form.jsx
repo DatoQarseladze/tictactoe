@@ -1,7 +1,8 @@
 import React from "react";
-import "./Form.css";
+import formStyles from "./Form.module.css";
 import { MyContext } from "../../../contexts/TictacStatsContext";
 import useForm from "../../../hooks/useForm";
+import appStyles from '../../../App.module.css'
 
 const stateSchema = {
   width: { value: "", error: "" },
@@ -56,12 +57,12 @@ const Form = () => {
       {context => {
         return (
           <>
-            <p className="form-header">Please choose options</p>
+            <p className={formStyles.formHeader}>Please choose options</p>
             <form
-              onSubmit={handleOnSubmit(context.growAYearOlder)}
-              className="input-form"
+              onSubmit={handleOnSubmit(context.startGame)}
+              className={formStyles.inputForm}
             >
-              <div className="form-item">
+              <div className={formStyles.formItem}>
                 <label htmlFor="length">
                   Length:
                   <input
@@ -71,10 +72,10 @@ const Form = () => {
                     onChange={handleOnChange}
                   />
                 </label>
-                {errors.length && <p className="error">{errors.length}</p>}
+                {errors.length && <p className={appStyles.error}>{errors.length}</p>}
               </div>
 
-              <div className="form-item">
+              <div className={formStyles.formItem}>
                 <label htmlFor="width">
                   Width:
                   <input
@@ -87,7 +88,7 @@ const Form = () => {
                 {errors.width && <p className="error">{errors.width}</p>}
               </div>
 
-              <div className="form-item">
+              <div className={formStyles.formItem}>
                 <label htmlFor="rows">
                   Row:
                   <input
@@ -100,7 +101,7 @@ const Form = () => {
                 {errors.rows && <p className="error">{errors.rows}</p>}
               </div>
 
-              <button className="button" type="submit">
+              <button className={formStyles.button} type="submit">
                 Choose Options
               </button>
             </form>

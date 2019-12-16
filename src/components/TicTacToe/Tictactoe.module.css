@@ -1,7 +1,11 @@
-.tictac-container {
+.tictacContainer {
   width: 60%;
   height: 100vh;
   border-right: 2px solid black;
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  font-family: Roboto-Regular;
 }
 
 .box {

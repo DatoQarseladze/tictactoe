@@ -1,115 +1,127 @@
 import React, { useEffect } from "react";
-import "./Tictactoe.css";
+import tictacStyles from "./Tictactoe.module.css";
 import Div from "./Div/Div";
 
 const TicTacToe = ctx => {
   let width = parseInt(ctx.ctx.state.details.width);
   let length = parseInt(ctx.ctx.state.details.length);
   let row = parseInt(ctx.ctx.state.details.rows);
-
+  let audio = new Audio("/winning.mp3");
   let mult = width * length;
 
-
-  let alertDraw = winner => {
-    if(!winner && (ctx.ctx.state.currentTurn === mult)){
-      alert('Draw');
+  let checkWinConditions = async (winnerCount, row, player) => {
+    if (winnerCount === row - 1) {
+      ctx.ctx.setWinner(player);
+      // ctx.ctx.endGame(false);
+      // ctx.ctx.clearCoords([], 0);
     }
-  }
+  };
 
-  let checkVertical = (stats,player,counter, counterWin) => {
-      while (counter + width < mult + width) {
-          counter = counter + width;
-          if (stats.includes(counter)) {
-            counterWin++;
-          } else {
-            counterWin = 0;
-            break;
-          }
-          if (counterWin === row - 1) {
-            ctx.ctx.setWinner();
-            alert(player + " Won from function!");
-          }
-        }
-        counter = num;
-        return true;
-  }
-  
-   const findWinner =  (stats, player) => {
-    if (stats.length) {
-      let counter = 0;
-      let counterWin = 0;
-      stats.sort().forEach(async num => {
-        counter = num;
+  let playSound = () => {
+    // audio.play();
+  };
+  let alertDraw = () => {
+    // let winner = ctx.ctx.getWinner();
+    // ctx.ctx.clearCoords([], 0);
+    // ctx.ctx.endGame(false);
+    // alert(winner + " winner!");
+  };
 
-        //Vertical
-        await checkVertical(stats,player,counter, counterWin);
-
-        // while (counter + width < mult + width) {
-        //   counter = counter + width;
-        //   if (stats.includes(counter)) {
-        //     counterWin++;
-        //   } else {
-        //     counterWin = 0;
-        //     break;
-        //   }
-
-        //   if (counterWin === row - 1) {
-        //     ctx.ctx.setWinner();
-        //     alert(player + " Won!");
-        //   }
-        // }
-        // counter = num;
-
-        //Horizont
-        // while (counter + 1 < Math.ceil(counter / width) * width + 1) {
-        //   counter = counter + 1;
-        //   if (stats.includes(counter)) {
-        //     counterWin++;
-        //   } else {
-        //     counterWin = 0;
-        //     break;
-        //   }
-        //   if (counterWin === row - 1) {
-        //     ctx.ctx.setWinner();
-        //     alert(player + " Won!");
-        //   }
-        // }
-        // counter = num;
-
-        //Diagonal
-        // while (counter + (width - 1) < mult) {
-        //   counter = counter + width - 1;
-        //   if (stats.includes(counter)) {
-        //     counterWin++;
-        //   } else {
-        //     counterWin = 0;
-        //     break;
-        //   }
-        //   if (counterWin === row - 1) {
-        //     ctx.ctx.setWinner();
-        //     alert(player + " Won!");
-        //   }
-        // }
-        // counter = num;
-
-        //Reverse Diagonal
-        // while (counter + (width + 1) < mult + width) {
-        //   counter = counter + width + 1;
-        //   if (stats.includes(counter)) {
-        //     counterWin++;
-        //   } else {
-        //     counterWin = 0;
-        //     break;
-        //   }
-        //   if (counterWin === row - 1) {
-        //     ctx.ctx.setWinner();
-        //     alert(player + " Won!");
-        //   }
-        // }
-        // counter = num;
+  let checkVertical = (stats, num, row, player) => {
+    let winnerNum = num;
+    let winnerCount = 0;
+    for (let i = 1; i < row; i++) {
+      winnerNum = [winnerNum[0] + 1, winnerNum[1] + width];
+      stats.forEach(el => {
+        if (el[0] === winnerNum[0] && el[1] === winnerNum[1]) winnerCount++;
+        checkWinConditions(winnerCount, row, player);
       });
     }
   };
+
+  let checkHorizontal = (stats, num, row, player) => {
+    let winnerNum = num;
+    let winnerCount = 0;
+    for (let i = 1; i < row; i++) {
+      winnerNum = [winnerNum[0], winnerNum[1] + 1];
+      stats.forEach(el => {
+        if (el[0] === winnerNum[0] && el[1] === winnerNum[1]) winnerCount++;
+        checkWinConditions(winnerCount, row, player);
+      });
+    }
+  };
+
+  let checkDiagonal = (stats, num, row, statement, player) => {
+    let winnerNum = num;
+    let winnerCount = 0;
+    switch (statement) {
+      case "diagonal":
+        for (let i = 1; i < row; i++) {
+          winnerNum = [winnerNum[0] + 1, winnerNum[1] + width + 1];
+          stats.forEach(el => {
+            if (el[0] === winnerNum[0] && el[1] === winnerNum[1]) winnerCount++;
+            checkWinConditions(winnerCount, row, player);
+          });
+        }
+        break;
+
+      case "reverse":
+        for (let i = 1; i < row; i++) {
+          winnerNum = [winnerNum[0] + 1, winnerNum[1] + width - 1];
+          stats.forEach(el => {
+            if (el[0] === winnerNum[0] && el[1] === winnerNum[1]) winnerCount++;
+            checkWinConditions(winnerCount, row, player);
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  let verticalCheck = (stats, player) => {
+    stats.forEach(element => {
+      checkVertical(stats, element, row, player);
+    });
+  };
+
+  let horizontCheck = (stats, player) => {
+    stats.sort().forEach(num => {
+      checkHorizontal(stats, num, row, player);
+    });
+  };
+
+  let diagonalCheck = (stats, player) => {
+    stats.sort().forEach(num => {
+      checkDiagonal(stats, num, row, "diagonal", player);
+    });
+  };
+
+  let reverseDiagonalCheck = (stats, player) => {
+    stats.sort().forEach(num => {
+      checkDiagonal(stats, num, row, "reverse", player);
+    });
+  };
+
+  let findWinner = async (stats, player) => {
+    if (stats.length) {
+      //Vertical
+      await verticalCheck(stats, player);
+      //Horizont
+      await horizontCheck(stats, player);
+      //Diagonal
+      await diagonalCheck(stats, player);
+      //Reverse Diagonal
+      await reverseDiagonalCheck(stats, player);
+    }
+  };
+
+  /*State listeners start*/
+  useEffect(() => {
+    if (ctx.ctx.state.playSound) {
+      playSound();
+    }
+  }, [ctx.ctx.state.playSound]);
 
   useEffect(() => {
     findWinner(ctx.ctx.state.Xturns, "X");
@@ -119,10 +131,18 @@ const TicTacToe = ctx => {
     findWinner(ctx.ctx.state.Oturns, "O");
   }, [ctx.ctx.state.Oturns]);
 
+  useEffect(() => {
+    if (ctx.ctx.state.winner) {
+      alertDraw();
+    }
+  }, [ctx.ctx.state.winner]);
 
   useEffect(() => {
-    alertDraw(ctx.ctx.state.winner)
-  }, [ctx.ctx.state.winner])
+    if (ctx.ctx.state.currentTurn === mult) {
+      alert("draw");
+    }
+  }, [ctx.ctx.state.currentTurn]);
+  /*State listeners end  */
 
   let buildTable = context => {
     let mult = width * length;
@@ -144,9 +164,9 @@ const TicTacToe = ctx => {
   };
 
   if (ctx.ctx.state.active) {
-    return <div className="tictac-container">{buildTable(ctx.ctx)}</div>;
+    return <div className={tictacStyles.tictacContainer}>{buildTable(ctx.ctx)}</div>;
   }
-  return <div className="tictac-container">Enter Options</div>;
+  return <div className={tictacStyles.tictacContainer}>Enter Options</div>;
 };
 
 export default TicTacToe;
