@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from "react";
 import MyProvider, { MyContext } from "./contexts/TictacStatsContext";
 import TicTacToe from "./components/TicTacToe/TicTacToe";

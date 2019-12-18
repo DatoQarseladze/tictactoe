@@ -6,25 +6,21 @@ const TicTacToe = ctx => {
   let width = parseInt(ctx.ctx.state.details.width);
   let length = parseInt(ctx.ctx.state.details.length);
   let row = parseInt(ctx.ctx.state.details.rows);
-  let audio = new Audio("/winning.mp3");
   let mult = width * length;
 
   let checkWinConditions = async (winnerCount, row, player) => {
     if (winnerCount === row - 1) {
       ctx.ctx.setWinner(player);
-      // ctx.ctx.endGame(false);
-      // ctx.ctx.clearCoords([], 0);
+
     }
   };
 
-  let playSound = () => {
-    // audio.play();
-  };
+
   let alertDraw = () => {
-    // let winner = ctx.ctx.getWinner();
-    // ctx.ctx.clearCoords([], 0);
-    // ctx.ctx.endGame(false);
-    // alert(winner + " winner!");
+    let winner = ctx.ctx.getWinner();
+    ctx.ctx.clearCoords([], 0);
+    ctx.ctx.endGame(false);
+    alert(winner + " winner!");
   };
 
   let checkVertical = (stats, num, row, player) => {
@@ -117,12 +113,6 @@ const TicTacToe = ctx => {
   };
 
   /*State listeners start*/
-  useEffect(() => {
-    if (ctx.ctx.state.playSound) {
-      playSound();
-    }
-  }, [ctx.ctx.state.playSound]);
-
   useEffect(() => {
     findWinner(ctx.ctx.state.Xturns, "X");
   }, [ctx.ctx.state.Xturns]);
