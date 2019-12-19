@@ -1,10 +1,10 @@
-/* eslint-disable */
 import React, { Component } from "react";
 import MyProvider, { MyContext } from "./contexts/TictacStatsContext";
 import TicTacToe from "./components/TicTacToe/TicTacToe";
 import Input from "./components/Input/Input";
 import appStyles from "./App.module.css";
 import WinAlert from "./components/WinAlert/WinAlert";
+// console.log = console.warn = console.error = () => {};
 
 class App extends Component {
   render() {

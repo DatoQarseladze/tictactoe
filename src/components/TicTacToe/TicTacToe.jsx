@@ -7,20 +7,10 @@ const TicTacToe = ctx => {
   let length = parseInt(ctx.ctx.state.details.length);
   let row = parseInt(ctx.ctx.state.details.rows);
   let mult = width * length;
-
   let checkWinConditions = async (winnerCount, row, player) => {
     if (winnerCount === row - 1) {
       ctx.ctx.setWinner(player);
-
     }
-  };
-
-
-  let alertDraw = () => {
-    let winner = ctx.ctx.getWinner();
-    ctx.ctx.clearCoords([], 0);
-    ctx.ctx.endGame(false);
-    alert(winner + " winner!");
   };
 
   let checkVertical = (stats, num, row, player) => {
@@ -28,10 +18,12 @@ const TicTacToe = ctx => {
     let winnerCount = 0;
     for (let i = 1; i < row; i++) {
       winnerNum = [winnerNum[0] + 1, winnerNum[1] + width];
-      stats.forEach(el => {
-        if (el[0] === winnerNum[0] && el[1] === winnerNum[1]) winnerCount++;
-        checkWinConditions(winnerCount, row, player);
-      });
+      for (let i = 0; i < stats.length; i++) {
+        if (stats[i][0] === winnerNum[0] && stats[i][1] === winnerNum[1]) {
+          winnerCount++;
+          checkWinConditions(winnerCount, row, player);
+        }
+      }
     }
   };
 
@@ -40,10 +32,12 @@ const TicTacToe = ctx => {
     let winnerCount = 0;
     for (let i = 1; i < row; i++) {
       winnerNum = [winnerNum[0], winnerNum[1] + 1];
-      stats.forEach(el => {
-        if (el[0] === winnerNum[0] && el[1] === winnerNum[1]) winnerCount++;
-        checkWinConditions(winnerCount, row, player);
-      });
+      for (let i = 0; i < stats.length; i++) {
+        if (stats[i][0] === winnerNum[0] && stats[i][1] === winnerNum[1]) {
+          winnerCount++;
+          checkWinConditions(winnerCount, row, player);
+        }
+      }
     }
   };
 
@@ -54,20 +48,24 @@ const TicTacToe = ctx => {
       case "diagonal":
         for (let i = 1; i < row; i++) {
           winnerNum = [winnerNum[0] + 1, winnerNum[1] + width + 1];
-          stats.forEach(el => {
-            if (el[0] === winnerNum[0] && el[1] === winnerNum[1]) winnerCount++;
-            checkWinConditions(winnerCount, row, player);
-          });
+          for (let i = 0; i < stats.length; i++) {
+            if (stats[i][0] === winnerNum[0] && stats[i][1] === winnerNum[1]) {
+              winnerCount++;
+              checkWinConditions(winnerCount, row, player);
+            }
+          }
         }
         break;
 
       case "reverse":
         for (let i = 1; i < row; i++) {
           winnerNum = [winnerNum[0] + 1, winnerNum[1] + width - 1];
-          stats.forEach(el => {
-            if (el[0] === winnerNum[0] && el[1] === winnerNum[1]) winnerCount++;
-            checkWinConditions(winnerCount, row, player);
-          });
+          for (let i = 0; i < stats.length; i++) {
+            if (stats[i][0] === winnerNum[0] && stats[i][1] === winnerNum[1]) {
+              winnerCount++;
+              checkWinConditions(winnerCount, row, player);
+            }
+          }
         }
         break;
       default:
@@ -121,11 +119,11 @@ const TicTacToe = ctx => {
     findWinner(ctx.ctx.state.Oturns, "O");
   }, [ctx.ctx.state.Oturns]);
 
-  useEffect(() => {
-    if (ctx.ctx.state.winner) {
-      alertDraw();
-    }
-  }, [ctx.ctx.state.winner]);
+  // useEffect(() => {
+  // if (ctx.ctx.state.winner) {
+  // alertDraw();
+  // }
+  // }, [ctx.ctx.state.winner]);
 
   useEffect(() => {
     if (ctx.ctx.state.currentTurn === mult) {
@@ -154,7 +152,9 @@ const TicTacToe = ctx => {
   };
 
   if (ctx.ctx.state.active) {
-    return <div className={tictacStyles.tictacContainer}>{buildTable(ctx.ctx)}</div>;
+    return (
+      <div className={tictacStyles.tictacContainer}>{buildTable(ctx.ctx)}</div>
+    );
   }
   return <div className={tictacStyles.tictacContainer}>Enter Options</div>;
 };

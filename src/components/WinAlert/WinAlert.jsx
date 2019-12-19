@@ -1,5 +1,4 @@
-/* eslint react/prop-types: 0 */
-import React, { useRef, useEffect, useCallback } from "react";
+import React, { useRef, useEffect } from "react";
 import WinStyles from "./WinAlert.module.css";
 
 const WinAlert = ctx => {
@@ -9,20 +8,21 @@ const WinAlert = ctx => {
     ctx.ctx.clearCoords([], 0);
   };
 
-  const handleUserKeyPress = useCallback(event => {
-    const { keyCode } = event;
-    if (keyCode === 27 && !ctx.ctx.state.winner) {
-      endGame();
-      //eslint-disable-next-line
-    }
-  }, []);
+
 
   useEffect(() => {
+    function handleUserKeyPress(event){
+      const { keyCode} = event;
+        if (keyCode === 27 && ctx.ctx.state.winner) {
+      endGame();
+    }
+    }
+
     window.addEventListener("keydown", handleUserKeyPress);
     return () => {
       window.removeEventListener("keydown", handleUserKeyPress);
     };
-  }, [handleUserKeyPress]);
+  });
 
  
   const modalContainer = useRef(null);
