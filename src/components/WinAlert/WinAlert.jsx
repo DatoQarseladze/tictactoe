@@ -9,7 +9,6 @@ const WinAlert = ctx => {
   };
 
 
-
   useEffect(() => {
     function handleUserKeyPress(event){
       const { keyCode} = event;

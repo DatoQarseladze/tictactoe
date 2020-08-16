@@ -10,7 +10,7 @@ const ChildDiv = ({ totalTurns, parentIndex, ownIndex, width, context }) => {
       if (context.getTotalTurns() !== totalTurns) {
         context.setTotalTurns(totalTurns);
       }
-
+ 
       context.currentTurn();
       //Get which player clicks
       context.getTurn() === "O" ? (turn = "X") : (turn = "O");

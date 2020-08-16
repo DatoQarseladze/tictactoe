@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 // first we will make a new context
 export const MyContext = React.createContext();
-
 // Then create a provider Component
 class MyProvider extends Component {
   state = {
