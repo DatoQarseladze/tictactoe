@@ -2,11 +2,10 @@ import React, { useEffect } from "react";
 import tictacStyles from "./Tictactoe.module.css";
 import Div from "./Div/Div";
 
-const TicTacToe = ctx => {
+const TicTacToe = (ctx) => {
   let width = parseInt(ctx.ctx.state.details.width);
   let length = parseInt(ctx.ctx.state.details.length);
   let row = parseInt(ctx.ctx.state.details.rows);
-  let mult = width * length;
   let checkWinConditions = async (winnerCount, row, player) => {
     if (winnerCount === row - 1) {
       ctx.ctx.setWinner(player);
@@ -74,25 +73,25 @@ const TicTacToe = ctx => {
   };
 
   let verticalCheck = (stats, player) => {
-    stats.forEach(element => {
+    stats.forEach((element) => {
       checkVertical(stats, element, row, player);
     });
   };
 
   let horizontCheck = (stats, player) => {
-    stats.sort().forEach(num => {
+    stats.sort().forEach((num) => {
       checkHorizontal(stats, num, row, player);
     });
   };
 
   let diagonalCheck = (stats, player) => {
-    stats.sort().forEach(num => {
+    stats.sort().forEach((num) => {
       checkDiagonal(stats, num, row, "diagonal", player);
     });
   };
 
   let reverseDiagonalCheck = (stats, player) => {
-    stats.sort().forEach(num => {
+    stats.sort().forEach((num) => {
       checkDiagonal(stats, num, row, "reverse", player);
     });
   };
@@ -112,27 +111,21 @@ const TicTacToe = ctx => {
 
   /*State listeners start*/
   useEffect(() => {
-    findWinner(ctx.ctx.state.Xturns, "X");
-  }, [ctx.ctx.state.Xturns]);
+
+    ctx.ctx.state.Xturns
+      ? findWinner(ctx.ctx.state.Xturns, "X")
+      : findWinner(ctx.ctx.state.Oturns, "O");
+
+  }, [ctx.ctx.state.Xturns, ctx.ctx.state.Oturns]);
 
   useEffect(() => {
-    findWinner(ctx.ctx.state.Oturns, "O");
-  }, [ctx.ctx.state.Oturns]);
-
-  // useEffect(() => {
-  // if (ctx.ctx.state.winner) {
-  // alertDraw();
-  // }
-  // }, [ctx.ctx.state.winner]);
-
-  useEffect(() => {
-    if (ctx.ctx.state.currentTurn === mult) {
+    if (ctx.ctx.state.currentTurn === width * length) {
       alert("draw");
     }
   }, [ctx.ctx.state.currentTurn]);
   /*State listeners end  */
 
-  let buildTable = context => {
+  let buildTable = (context) => {
     let mult = width * length;
 
     let box = [...Array(parseInt(length))].map((el, i) => {
